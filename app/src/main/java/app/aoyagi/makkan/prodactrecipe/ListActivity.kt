@@ -33,6 +33,7 @@ class ListActivity : AppCompatActivity() {
         supportActionBar?.hide()
         toolbar2.title = "Todo"
         toolbar2.setNavigationIcon(R.drawable.ic_view_headline_white_24dp)
+        toolbar2.inflateMenu(R.menu.liet_menu)
 
         val todoList = readAll()
         val adapter = RealmAdapter(this, todoList, object : RealmAdapter.OnItemClickListener {
@@ -40,9 +41,9 @@ class ListActivity : AppCompatActivity() {
                 // クリック時の処理
                 val intent = Intent(this@ListActivity, OneViewActivity::class.java)
                 intent.putExtra("title", item.title)
-                intent.putExtra("means",item.means)
-                intent.putExtra("check",item.check)
-                intent.putExtra("id",item.id)
+                intent.putExtra("means", item.means)
+                intent.putExtra("check", item.check)
+                intent.putExtra("id", item.id)
                 startActivity(intent)
                 finish()
             }

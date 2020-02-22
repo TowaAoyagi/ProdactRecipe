@@ -15,8 +15,6 @@ class EditTodoActivity : AppCompatActivity() {
     }
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_todo)
@@ -24,6 +22,11 @@ class EditTodoActivity : AppCompatActivity() {
         supportActionBar?.hide()
         toolbar.title = "Todo"
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
+        toolbar.setNavigationOnClickListener {
+            val intent = Intent(this, ListActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
 
         val title = intent.getStringExtra("title")
@@ -54,7 +57,7 @@ class EditTodoActivity : AppCompatActivity() {
     //    Realmに保存する中身を指定
     fun create(title: String, means: String, check: Boolean) {
         realm.executeTransaction {
-            val realmInfo = realm.createObject(RealmInfo::class.java,UUID.randomUUID().toString())
+            val realmInfo = realm.createObject(RealmInfo::class.java, UUID.randomUUID().toString())
             realmInfo.title = title
             realmInfo.means = means
             realmInfo.check = check

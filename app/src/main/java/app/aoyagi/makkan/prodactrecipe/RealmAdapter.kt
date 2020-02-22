@@ -51,7 +51,7 @@ class RealmAdapter(
         val titleTextView: TextView = view.titleView
         var contentTextView: TextView = view.contentView
         val checkbox: CheckBox = view.checkBox
-        val linear : LinearLayout = view.linear
+        val linear: LinearLayout = view.linear
 
     }
 
