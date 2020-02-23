@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title = "serchicon"
+    <item
         android:id="@+id/search_icon"
         android:icon="@drawable/ic_search_white_24dp"
+        android:title="serchicon"
         app:showAsAction="always" />
 
-    <item android:title = "verticon"
+    <item
         android:id="@+id/vert_icon"
         android:icon="@drawable/ic_more_vert_white_24dp"
-        app:showAsAction="always" />
+        android:title="verticon"
+        app:showAsAction="always">
+
+        <menu>
+
+            <item
+                android:id="@+id/all"
+                android:title="All"
+                app:showAsAction="never"
+                />
+            <item
+                android:id="@+id/active"
+                android:title="Active"
+                app:showAsAction="never"
+                />
+            <item
+                android:id="@+id/completed"
+                android:title="Completed"
+                app:showAsAction="never"
+                />
+
+        </menu>
+    </item>
 
 
 </menu>

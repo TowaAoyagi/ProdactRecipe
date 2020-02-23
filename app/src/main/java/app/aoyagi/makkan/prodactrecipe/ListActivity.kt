@@ -1,26 +1,23 @@
 package app.aoyagi.makkan.prodactrecipe
 
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.isVisible
+import android.widget.CheckBox
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
-import kotlinx.android.synthetic.main.activity_edit_todo.*
-import kotlinx.android.synthetic.main.activity_edit_todo.view.*
-import kotlinx.android.synthetic.main.activity_expression.*
-import kotlinx.android.synthetic.main.activity_expression.view.*
 import kotlinx.android.synthetic.main.activity_list.*
-import java.nio.file.Files.delete
 import java.util.*
 
-class ListActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity(){
 
 
     private val realm: Realm by lazy {
@@ -34,24 +31,26 @@ class ListActivity : AppCompatActivity() {
         toolbar2.title = "Todo"
         toolbar2.setNavigationIcon(R.drawable.ic_view_headline_white_24dp)
         toolbar2.inflateMenu(R.menu.liet_menu)
+        toolbar2.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.all -> {
+                    makeAdapter(readAll())
+                }
+                R.id.active -> {
+                    makeAdapter(readNotCheck())
+                }
+                R.id.completed -> {
+                    makeAdapter(readCheck())
+                }
+
+            }
+            true
+        }
+
 
         val todoList = readAll()
-        val adapter = RealmAdapter(this, todoList, object : RealmAdapter.OnItemClickListener {
-            override fun onItemClick(item: RealmInfo) {
-                // クリック時の処理
-                val intent = Intent(this@ListActivity, OneViewActivity::class.java)
-                intent.putExtra("title", item.title)
-                intent.putExtra("means", item.means)
-                intent.putExtra("check", item.check)
-                intent.putExtra("id", item.id)
-                startActivity(intent)
-                finish()
-            }
-        }, true)
+        makeAdapter(todoList)
 
-        list.setHasFixedSize(true)
-        list.layoutManager = LinearLayoutManager(this)
-        list.adapter = adapter
 
         fab2.setOnClickListener {
             val intent = Intent(this, EditTodoActivity::class.java)
@@ -59,6 +58,7 @@ class ListActivity : AppCompatActivity() {
             finish()
         }
     }
+    
 
     override fun onDestroy() {
         super.onDestroy()
@@ -74,10 +74,54 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
+    fun makeAdapter(todoList:RealmResults<RealmInfo>){
+        val realmAdapter = RealmAdapter(this, todoList, object : RealmAdapter.OnItemClickListener {
+            override fun onItemClick(item: RealmInfo) {
+                // クリック時の処理
+                val intent = Intent(this@ListActivity, OneViewActivity::class.java)
+                intent.putExtra("title", item.title)
+                intent.putExtra("means", item.means)
+                intent.putExtra("check", item.check)
+                intent.putExtra("id", item.id)
+                startActivity(intent)
+                finish()
+            }
+
+            override fun onCheckboxClicked(view: View, item: RealmInfo) {
+                if (view is CheckBox) {
+                    var checked: Boolean = view.isChecked
+                    Log.d("checked", item.title)
+                    when (checked) {
+                        true -> {
+                            create(item.title, item.means, checked)
+                            delete(item.id)
+
+                        }
+                        false -> {
+                            create(item.title, item.means, checked)
+                            delete(item.id)
+                        }
+                    }
+                }
+            }
+        }, true)
+
+        list.setHasFixedSize(true)
+        list.layoutManager = LinearLayoutManager(this)
+        list.adapter = realmAdapter
+    }
 
     fun readAll(): RealmResults<RealmInfo> {
 //        チェックボックスにチェックがついてる順にソート
         return realm.where(RealmInfo::class.java).findAll().sort("check", Sort.ASCENDING)
+    }
+
+    fun readCheck(): RealmResults<RealmInfo> {
+        return realm.where(RealmInfo::class.java).equalTo("check",true).findAll()
+    }
+
+    fun readNotCheck(): RealmResults<RealmInfo> {
+        return realm.where(RealmInfo::class.java).equalTo("check",false).findAll()
     }
 
     fun delete(id: String) {

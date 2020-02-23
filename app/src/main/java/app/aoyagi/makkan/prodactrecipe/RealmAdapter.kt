@@ -2,6 +2,7 @@ package app.aoyagi.makkan.prodactrecipe
 
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,11 +33,14 @@ class RealmAdapter(
         holder.linear.setOnClickListener {
             listener.onItemClick(task)
         }
-
-
         holder.titleTextView.text = task.title
         holder.contentTextView.text = task.means
         holder.checkbox.isChecked = task.check
+        holder.checkbox.setOnClickListener {
+            listener.onCheckboxClicked(holder.checkbox,task)
+        }
+
+
     }
 
 
@@ -55,7 +59,10 @@ class RealmAdapter(
 
     }
 
+
     interface OnItemClickListener {
         fun onItemClick(item: RealmInfo)
+        fun onCheckboxClicked(view: View, item: RealmInfo)
+
     }
 }
