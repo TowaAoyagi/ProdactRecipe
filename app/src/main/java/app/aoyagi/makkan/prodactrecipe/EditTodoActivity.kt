@@ -3,7 +3,6 @@ package app.aoyagi.makkan.prodactrecipe
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_edit_todo.*
 import java.util.*

@@ -4,12 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
-import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
 import io.realm.RealmResults
@@ -17,7 +13,7 @@ import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_list.*
 import java.util.*
 
-class ListActivity : AppCompatActivity(){
+class ListActivity : AppCompatActivity() {
 
 
     private val realm: Realm by lazy {
@@ -58,7 +54,7 @@ class ListActivity : AppCompatActivity(){
             finish()
         }
     }
-    
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -74,7 +70,7 @@ class ListActivity : AppCompatActivity(){
         }
     }
 
-    fun makeAdapter(todoList:RealmResults<RealmInfo>){
+    fun makeAdapter(todoList: RealmResults<RealmInfo>) {
         val realmAdapter = RealmAdapter(this, todoList, object : RealmAdapter.OnItemClickListener {
             override fun onItemClick(item: RealmInfo) {
                 // クリック時の処理
@@ -117,11 +113,11 @@ class ListActivity : AppCompatActivity(){
     }
 
     fun readCheck(): RealmResults<RealmInfo> {
-        return realm.where(RealmInfo::class.java).equalTo("check",true).findAll()
+        return realm.where(RealmInfo::class.java).equalTo("check", true).findAll()
     }
 
     fun readNotCheck(): RealmResults<RealmInfo> {
-        return realm.where(RealmInfo::class.java).equalTo("check",false).findAll()
+        return realm.where(RealmInfo::class.java).equalTo("check", false).findAll()
     }
 
     fun delete(id: String) {
@@ -132,15 +128,4 @@ class ListActivity : AppCompatActivity(){
         }
     }
 
-    fun delete(task: RealmInfo) {
-        realm.executeTransaction {
-            task.deleteFromRealm()
-        }
-    }
-
-    fun deleteAll() {
-        realm.executeTransaction {
-            realm.deleteAll()
-        }
-    }
 }

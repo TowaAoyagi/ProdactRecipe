@@ -2,7 +2,6 @@ package app.aoyagi.makkan.prodactrecipe
 
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +36,7 @@ class RealmAdapter(
         holder.contentTextView.text = task.means
         holder.checkbox.isChecked = task.check
         holder.checkbox.setOnClickListener {
-            listener.onCheckboxClicked(holder.checkbox,task)
+            listener.onCheckboxClicked(holder.checkbox, task)
         }
 
 
