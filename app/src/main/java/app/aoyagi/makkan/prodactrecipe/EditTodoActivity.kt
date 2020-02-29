@@ -13,7 +13,6 @@ class EditTodoActivity : AppCompatActivity() {
         Realm.getDefaultInstance()
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_todo)
@@ -26,8 +25,6 @@ class EditTodoActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-
         val title = intent.getStringExtra("title")
         val means = intent.getStringExtra("means")
 
@@ -39,7 +36,6 @@ class EditTodoActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
     }
 
     override fun onDestroy() {
@@ -51,8 +47,6 @@ class EditTodoActivity : AppCompatActivity() {
         }
         realm.close()
     }
-
-
     //    Realmに保存する中身を指定
     fun create(title: String, means: String, check: Boolean) {
         realm.executeTransaction {

@@ -27,7 +27,7 @@ class OneViewActivity : AppCompatActivity() {
         val check = intent.getBooleanExtra("check", false)
         item.id = id
 
-        toolbar3.title = "Todo"
+        toolbar3.title = title
         toolbar3.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
         toolbar3.setNavigationOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
